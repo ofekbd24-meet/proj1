@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>calculator</title>
+	<link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous">
+</head>
+<body>
+	<canvas id="canvas" width="1127" height="300"></canvas>
+
+	<form action="#" method="POST" class="flex">
+		<textarea class="functions" id="functions" name="functions">{{functions}}</textarea>
+
+		<div class="hflex" style="overflow-y: scroll;">
+			<input id="scale" placeholder="Scale [default: 30]" name="scale" value="{{scale}}">
+			<div id="latexbox"></div>
+			<input type="submit" value="Save State">
+		</div>
+
+		<textarea readonly class="docs">Script Documentation
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+             Table of Contents
+NOTATION EXAMPLES          §0
+Core Features              §1
+  Functions                §1.1
+  Constants                §1.2
+Builtin Functions          §2
+  Common Functions         §2.1
+  Other Functions          §2.2
+  Integer Sequences        §2.3
+Index Of All Functions     §3
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                 NOTATION EXAMPLES
+You can just write your functions! Just like
+that!! To execute them just click outside the
+textarea.
+Here is an example for a simple function:
+      sin(x)+cos(x)
+Or if we want to apply a specific color:
+      sin(x)+cos(x)[12,67,125]
+Or a color and a thickness:
+      sin(x)+cos(x)[12,67,125][3]
+Or only thickness:
+      sin(x)+cos(x)[][3]
+
+If you want to name a function and then
+use it later on you can just use this simple
+notation:
+      f: sin(x)
+this defines a simple function f to be
+sin(x).
+
+To call it we just use:
+      $f
+and it MUST have a space after, so:
+	  $f +2
+or
+	  pow(x,2)+pow($f ,2)
+
+If you want to skip a line without drawing
+a function but executing its contents use
+%. i.e
+      %f:x
+	  $f 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                 CORE FEATURES
+		 FUNCTIONS
+POWERS                                   §1.1
+To use powers (i.e x^2) you're required to use the (inconvenient) function pow(x, n), where n is the exponent.
+Examples:
+- pow(x, 2)   = x^2.
+- pow(2, x)   = 2^x.
+- pow(5*x, -2) = (5*x)^-2.
+
+EXPONENTIAL                              §1.2
+Also in the script we use exp to denote exponentials. exp(n) = e^n.
+Examples:
+- exp(3) = e^3.
+
+LOGARITHMS                               §1.3
+There are a few logarithms implemented simply (you can simply convert), they are of base 2, base 10 and the natural logarithm, and are (respectively) log2, log10, log.
+Examples:
+- log(e^x)    = x.
+- log10(x)    = log_10(x).
+- log2(x^2)   = log_2(x^2).
+
+ROOTS                                    §1.1
+Although roots are simply powers we denote the square root and the cube root by sqrt and cbrt respectively.
+Examples:
+- sqrt(3) = 3^1/2
+- cbrt(3) = 3^1/3
+
+		CONSTANTS
+symbol    script      javascript
+π         #pi         math.pi
+e         #e          math.e
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+            BUILTIN FUNCTIONS
+		COMMON FUNCTIONS
+TRIGONOMETRIC FUNCTIONS                §2.1.1
+They are all denoted as they are usually: sin, cos, tan, arctan, arccos, arcsin, cot, sec, csc.
+
+FACTORIAL							   §2.1.2
+Denoted with factorial(x), it is the factorial function. For the gamma function use the gamma(x)
+command.
+
+BINOMIAL COEFFICIENT                   §2.1.3
+Denoted with binom(x,y) it is simply the binomial coefficient. To use multinomial notation use the mltin(x, [y]) command with y being an array.
+For mutliset coefficients use mltico(x,y).
+
+             OTHER FUNCTIONS
+GREATEST COMMON DIVISOR                §2.2.1
+Denoted by gcd, it takes two inputs and outputs the greatest common divisor.
+gcd(a,b) = EuclideanAlgorithm(a,b)
+
+PRIME COUNTER FUNCTION                 §2.2.2
+Denoted by prime(x) it is the prime counter function.
+
+             INTEGER SEQUENCES
+FIBONACCI SEQUENCE                     §2.3.1
+Denoted by fib(n) fibonacci takes an input, floors it and returns the corresponding fibonacci number.
+
+CATALAN NUMBERS                        §2.3.2
+Denoted by catalan(n) it is a catalan number generator.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+INDEX OF ALL FUNCTIONS                     §3
+[notation]        [syntax]     [name]
+x^n               pow(x,n)     power of n
+exp(n)            exp(x)       exponential
+ln(x)             log(x)       natural log
+log_10(x)         log10(x)     log of base 10
+log_2(x)          log2(x)      log of base 2
+x^(1/2)           sqrt(x)      square root
+x^(1/3)           cbrt(x)      cube root
+π                 #pi          pi
+e                 #e           euler's const
+cos(x)            cos(x)       cosine
+sin(x)            sin(x)       sine
+tan(x)            tan(x)       tangence
+arctan(x)         arctan(x)    inv. tan
+arccos(x)         arccos(x)    inv. cos
+arcsin(x)         arcsin(x)    inv. sin
+cot(x)            cot(x)       cotangent
+sec(x)            sec(x)       secant
+csc(x)            csc(x)       cosecant
+F_x               fib(x)       fibonacci
+x!                factorial(x) factorial
+Γ(x)              gamma(x)     gamma
+C_n               catalan(n)   catalan
+π(x)              prime(x)     prime counter
+(x y)             binom(x,y)   binomial coef
+(x y_1,y_2,...)   mltin(x,[y]) multinomial
+((x y))           mltico(x,y)  multiset coef
+</textarea>
+	</form>
+
+	<script src="{{url_for('static', filename='js/calculator.js')}}"></script>
+	<script src="{{url_for('static', filename='js/functions.js')}}"></script>
+	<script src="{{url_for('static', filename='js/math.js')}}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js" integrity="sha384-cpW21h6RZv/phavutF+AuVYrr+dA8xD9zs6FwLpaCct6O9ctzYFfFr4dgmgccOTx" crossorigin="anonymous"></script>
+	<script src="https://unpkg.com/mathjs@11.9.1/lib/browser/math.js"></script>
+	<script> execute_functions() </script>
+</body>
+</html>

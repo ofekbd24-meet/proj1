@@ -1,0 +1,39 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.flex {
+	display: flex;
+}
+
+.hflex { display: flex; flex-direction: column; width: 17.5%; }
+
+#functions {
+	width: 50%;
+	height: 50vh;
+	resize: none;
+}
+
+#shift-base {
+	width: 17.5%;
+	height: 20px;
+}
+
+.latex-container {
+	padding: 12.5px;
+	border: solid 1px black;
+	overflow-x: scroll;
+}
+
+.latexbox {
+	height: 300px;
+	max-width: 17.5%;
+	max-height: 600px;
+	overflow-y: scroll;
+}
+
+.docs {
+	width: 32.5%;
+	resize: none;
+}
